@@ -242,9 +242,9 @@ class Evaluator:
             get_task_instance_path(scene_model),
             f"json/{scene_model}_task_{self.env.task.activity_name}_instances/{tro_filename}-tro_state.json",
         )
-        assert os.path.exists(
-            tro_file_path
-        ), f"Could not find TRO file at {tro_file_path}, did you run ./populate_behavior_tasks.sh?"
+        assert os.path.exists(tro_file_path), (
+            f"Could not find TRO file at {tro_file_path}, did you run ./populate_behavior_tasks.sh?"
+        )
         with open(tro_file_path, "r") as f:
             tro_state = recursively_convert_to_torch(json.load(f))
         self.env.scene.reset()
@@ -347,7 +347,7 @@ class Evaluator:
 if __name__ == "__main__":
     register_omegaconf_resolvers()
     # open yaml from task path
-    with hydra.initialize_config_dir(f"{Path(getsourcefile(lambda:0)).parents[0]}/configs", version_base="1.1"):
+    with hydra.initialize_config_dir(f"{Path(getsourcefile(lambda: 0)).parents[0]}/configs", version_base="1.1"):
         config = hydra.compose("base_config.yaml", overrides=sys.argv[1:])
     OmegaConf.resolve(config)
     # set headless mode
@@ -365,9 +365,9 @@ if __name__ == "__main__":
     )
     with open(task_instance_csv_path, "r") as f:
         lines = list(csv.reader(f))[1:]
-    assert (
-        lines[TASK_NAMES_TO_INDICES[config.task.name]][1] == config.task.name
-    ), f"Task name from config {config.task.name} does not match task name from csv {lines[TASK_NAMES_TO_INDICES[config.task.name]][1]}"
+    assert lines[TASK_NAMES_TO_INDICES[config.task.name]][1] == config.task.name, (
+        f"Task name from config {config.task.name} does not match task name from csv {lines[TASK_NAMES_TO_INDICES[config.task.name]][1]}"
+    )
     test_instances = lines[TASK_NAMES_TO_INDICES[config.task.name]][2].strip().split(",")
     instances_to_run = [int(test_instances[i]) for i in instances_to_run]
     # establish metrics

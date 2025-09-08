@@ -117,9 +117,9 @@ def create_video_writer(
         av.Container: PyAV container object that can be used to write video frames
         av.Stream: PyAV stream object that can be used to write video frames
     """
-    assert fpath.endswith(".mp4") or fpath.endswith(
-        ".mkv"
-    ), f"Video writer fpath must end with .mp4 or .mkv! Got: {fpath}"
+    assert fpath.endswith(".mp4") or fpath.endswith(".mkv"), (
+        f"Video writer fpath must end with .mp4 or .mkv! Got: {fpath}"
+    )
     container = av.open(fpath, mode="w")
     stream = container.add_stream(codec_name, rate=rate)
     stream.height = resolution[0]

@@ -295,12 +295,12 @@ class BehaviorLerobotDatasetMetadata(LeRobotDatasetMetadata):
         self.task_name_candidates = set(tasks) if tasks is not None else set(TASK_NAMES_TO_INDICES.keys())
         self.modalities = set(modalities)
         self.camera_names = set(cameras)
-        assert self.modalities.issubset(
-            {"rgb", "depth", "seg_instance_id"}
-        ), f"Modalities must be a subset of ['rgb', 'depth', 'seg_instance_id'], but got {self.modalities}"
-        assert self.camera_names.issubset(
-            ROBOT_CAMERA_NAMES["R1Pro"]
-        ), f"Camera names must be a subset of {ROBOT_CAMERA_NAMES['R1Pro']}, but got {self.camera_names}"
+        assert self.modalities.issubset({"rgb", "depth", "seg_instance_id"}), (
+            f"Modalities must be a subset of ['rgb', 'depth', 'seg_instance_id'], but got {self.modalities}"
+        )
+        assert self.camera_names.issubset(ROBOT_CAMERA_NAMES["R1Pro"]), (
+            f"Camera names must be a subset of {ROBOT_CAMERA_NAMES['R1Pro']}, but got {self.camera_names}"
+        )
         # ===================================
 
         self.repo_id = repo_id

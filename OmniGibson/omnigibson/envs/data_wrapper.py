@@ -50,9 +50,9 @@ class DataWrapper(EnvironmentWrapper):
             flush_every_n_traj (int): How often to flush (write) current data to file
         """
         # Make sure the wrapped environment inherits correct omnigibson format
-        assert isinstance(
-            env, (og.Environment, EnvironmentWrapper)
-        ), "Expected wrapped @env to be a subclass of OmniGibson's Environment class or EnvironmentWrapper!"
+        assert isinstance(env, (og.Environment, EnvironmentWrapper)), (
+            "Expected wrapped @env to be a subclass of OmniGibson's Environment class or EnvironmentWrapper!"
+        )
 
         # Only one scene is supported for now
         assert len(og.sim.scenes) == 1, "Only one scene is currently supported for DataWrapper env!"
@@ -642,9 +642,9 @@ class DataCollectionWrapper(DataWrapper):
         # and will therefore not be tracked properly in subsequent states during playback. So we assert that the current
         # idx is NOT the current checkpoint idx
         if len(self.checkpoint_step_idxs) > 0:
-            assert (
-                self.checkpoint_step_idxs[-1] - 1 != self.env.episode_steps
-            ), "A checkpoint was just updated. Any subsequent transitions at this immediate timestep will not be replayed properly!"
+            assert self.checkpoint_step_idxs[-1] - 1 != self.env.episode_steps, (
+                "A checkpoint was just updated. Any subsequent transitions at this immediate timestep will not be replayed properly!"
+            )
 
         if self.env.episode_steps not in self.current_transitions:
             self.current_transitions[self.env.episode_steps] = {
@@ -889,9 +889,9 @@ class DataPlaybackWrapper(DataWrapper):
         # Store scene file so we can restore the data upon each episode reset
         self.input_hdf5 = h5py.File(input_path, "r")
         self.scene_file = json.loads(self.input_hdf5["data"].attrs["scene_file"])
-        assert not (
-            load_room_instances and not full_scene_file
-        ), "Full scene file must be specified in order to load room instances"
+        assert not (load_room_instances and not full_scene_file), (
+            "Full scene file must be specified in order to load room instances"
+        )
         if full_scene_file:
             with open(full_scene_file, "r") as json_file:
                 full_scene_json = json.load(json_file)
